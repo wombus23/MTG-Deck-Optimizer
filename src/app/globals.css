@@ -1,0 +1,312 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Mana Colors */
+  --mana-white: #F8F6D8;
+  --mana-blue: #0E68AB;
+  --mana-black: #150B00;
+  --mana-red: #D3202A;
+  --mana-green: #00733E;
+  --mana-colorless: #CAC5C0;
+  --mana-gold: #FCBA03;
+
+  /* UI Colors */
+  --bg-primary: #1a1612;
+  --bg-secondary: #2d261f;
+  --bg-card: #3d3429;
+  --bg-hover: #4a4035;
+  --accent-gold: #c9a227;
+  --accent-gold-light: #dbb842;
+  --accent-mythic: #f5832a;
+  --text-primary: #e8e0d5;
+  --text-secondary: #a89f91;
+  --text-muted: #6b6358;
+  --border-color: #4a4035;
+  --border-light: #5a5045;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-mtg-dark text-mtg-text;
+    font-family: 'Crimson Text', Georgia, serif;
+    background-image:
+      radial-gradient(ellipse at top, rgba(45, 38, 31, 0.8) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom, rgba(26, 22, 18, 1) 0%, transparent 50%),
+      linear-gradient(180deg, #1a1612 0%, #0f0d0a 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cinzel', serif;
+    @apply text-mtg-text font-semibold tracking-wide;
+  }
+
+  ::selection {
+    @apply bg-mtg-gold/30 text-mtg-text;
+  }
+}
+
+@layer components {
+  /* MTG Card Frame Style */
+  .mtg-card-frame {
+    @apply relative rounded-lg overflow-hidden;
+    background: linear-gradient(135deg, #3d3429 0%, #2d261f 50%, #1a1612 100%);
+    border: 2px solid var(--border-color);
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.5),
+      0 2px 4px -1px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .mtg-card-frame::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.03) 0%,
+      transparent 50%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+  }
+
+  .mtg-card-frame:hover {
+    @apply border-mtg-gold/50;
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.5),
+      0 4px 6px -2px rgba(0, 0, 0, 0.3),
+      0 0 20px rgba(201, 162, 39, 0.15);
+  }
+
+  /* Gold Border Variant */
+  .mtg-card-frame-gold {
+    @apply mtg-card-frame;
+    border-color: var(--accent-gold);
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.5),
+      0 2px 4px -1px rgba(0, 0, 0, 0.3),
+      0 0 15px rgba(201, 162, 39, 0.2);
+  }
+
+  /* Mythic Border Variant */
+  .mtg-card-frame-mythic {
+    @apply mtg-card-frame;
+    border-color: var(--accent-mythic);
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.5),
+      0 2px 4px -1px rgba(0, 0, 0, 0.3),
+      0 0 15px rgba(245, 131, 42, 0.2);
+  }
+
+  /* Button Styles */
+  .mtg-button {
+    @apply relative px-6 py-2.5 rounded font-display font-medium text-sm tracking-wider uppercase;
+    @apply transition-all duration-200 ease-out;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .mtg-button-primary {
+    @apply mtg-button;
+    background: linear-gradient(135deg, #dbb842 0%, #c9a227 50%, #a88620 100%);
+    color: #1a1612;
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  .mtg-button-primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow:
+      0 4px 8px rgba(0, 0, 0, 0.4),
+      0 0 20px rgba(201, 162, 39, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  .mtg-button-primary:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  .mtg-button-secondary {
+    @apply mtg-button;
+    @apply bg-mtg-card border border-mtg-border text-mtg-text;
+  }
+
+  .mtg-button-secondary:hover:not(:disabled) {
+    @apply bg-mtg-cardLight border-mtg-gold/50;
+  }
+
+  /* Input Styles */
+  .mtg-input {
+    @apply w-full px-4 py-3 rounded-lg;
+    @apply bg-mtg-darker border border-mtg-border;
+    @apply text-mtg-text placeholder-mtg-textDark;
+    @apply focus:outline-none focus:border-mtg-gold/50 focus:ring-1 focus:ring-mtg-gold/30;
+    @apply transition-all duration-200;
+  }
+
+  .mtg-input:hover:not(:focus) {
+    @apply border-mtg-border/80;
+  }
+
+  /* Scrollbar Styling */
+  .mtg-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .mtg-scrollbar::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+    border-radius: 4px;
+  }
+
+  .mtg-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+  }
+
+  .mtg-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-gold);
+  }
+
+  /* Mana Symbol Container */
+  .mana-symbol {
+    @apply inline-flex items-center justify-center;
+    @apply w-5 h-5 rounded-full text-xs font-bold;
+    box-shadow:
+      inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+      0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  .mana-symbol-W { background: var(--mana-white); color: #333; }
+  .mana-symbol-U { background: var(--mana-blue); color: #fff; }
+  .mana-symbol-B { background: var(--mana-black); color: #ccc; border: 1px solid #444; }
+  .mana-symbol-R { background: var(--mana-red); color: #fff; }
+  .mana-symbol-G { background: var(--mana-green); color: #fff; }
+  .mana-symbol-C { background: var(--mana-colorless); color: #333; }
+
+  /* Glowing text effect */
+  .glow-text {
+    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+  }
+
+  /* Parchment texture overlay */
+  .parchment-bg {
+    position: relative;
+  }
+
+  .parchment-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+  }
+
+  /* Card hover lift effect */
+  .card-hover-lift {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .card-hover-lift:hover {
+    transform: translateY(-4px) scale(1.02);
+  }
+
+  /* Gradient text */
+  .gradient-text-gold {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #dbb842 0%, #c9a227 50%, #a88620 100%);
+  }
+
+  /* Loading shimmer effect */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(201, 162, 39, 0.1) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+
+  /* Divider with ornament */
+  .mtg-divider {
+    @apply relative flex items-center justify-center my-8;
+  }
+
+  .mtg-divider::before,
+  .mtg-divider::after {
+    content: '';
+    @apply flex-1 h-px bg-gradient-to-r from-transparent via-mtg-border to-transparent;
+  }
+
+  .mtg-divider::before {
+    @apply mr-4;
+  }
+
+  .mtg-divider::after {
+    @apply ml-4;
+  }
+}
+
+@layer utilities {
+  .text-shadow-sm {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  .text-shadow-md {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Responsive card grid */
+  .card-grid {
+    @apply grid gap-4;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  @screen md {
+    .card-grid {
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+  }
+
+  @screen lg {
+    .card-grid {
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+  }
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; box-shadow: 0 0 15px currentColor; }
+  50% { opacity: 0.7; box-shadow: 0 0 25px currentColor; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Focus visible for accessibility */
+.focus-visible:focus-visible {
+  @apply outline-none ring-2 ring-mtg-gold ring-offset-2 ring-offset-mtg-dark;
+}
